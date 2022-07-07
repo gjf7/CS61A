@@ -1,5 +1,6 @@
 # Currying: Transforming a multi-argument function into a single-argument function that can be called repeatedly with a single argument.
 
+
 def curry2(f):
     def g(x):
         def h(y):
