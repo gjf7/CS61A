@@ -24,12 +24,12 @@ def close(n, smallest=10, d=10):
     1234567
     """
     if n == 0:
-      return ______
+        return 0
     no = close(n//10, smallest, d)
-    if smallest > ______:
-        yes = ______
-        return ______(yes, no)
-    return ______
+    if smallest > n % 10:
+        yes = 10 * close(n//10, d, min(d, n%10)) + n%10
+        return max(no, yes)
+    return no
 
 # ORIGINAL SKELETON FOLLOWS
 
