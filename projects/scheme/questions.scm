@@ -7,9 +7,17 @@
 (define (cddr x) (cdr (cdr x)))
 
 ; Some utility functions that you may find useful to implement.
-(define (cons-all first rests) 'replace-this-line)
+(define (cons-all first rests)
+  (map (lambda (x) (append (list first) x)) rests))
 
-(define (zip pairs) 'replace-this-line)
+(define (zip pairs) 
+    (define (helper s first second)
+        (if (null? s) (list first second)
+            (helper (cdr s) (append first (list (caar s))) (append second (list (car (cdar s)))))
+        )
+    )
+    (helper pairs nil nil)
+)
 
 ; ; Problem 16
 ; ; Returns a list of two-element lists
@@ -27,8 +35,17 @@
 ; ; List all ways to make change for TOTAL with DENOMS
 (define (list-change total denoms)
   ; BEGIN PROBLEM 17
-  
-  )
+  (cond 
+    ((= total 0)
+     (list nil))
+    ((null? denoms)
+     nil)
+    ((< total 0)
+     nil)
+    (else
+     (append (cons-all (car denoms)
+                       (list-change (- total (car denoms)) denoms))
+             (list-change total (cdr denoms))))))
 
 ; END PROBLEM 17
 ; ; Problem 18
@@ -49,12 +66,12 @@
   (cond 
     ((atom? expr)
      ; BEGIN PROBLEM 18
-     'replace-this-line
+     expr
      ; END PROBLEM 18
     )
     ((quoted? expr)
      ; BEGIN PROBLEM 18
-     'replace-this-line
+     expr
      ; END PROBLEM 18
     )
     ((or (lambda? expr) (define? expr))
@@ -62,18 +79,19 @@
            (params (cadr expr))
            (body (cddr expr)))
        ; BEGIN PROBLEM 18
-       'replace-this-line
+       (cons form (cons params (map let-to-lambda body)))
        ; END PROBLEM 18
      ))
     ((let? expr)
      (let ((values (cadr expr))
            (body (cddr expr)))
        ; BEGIN PROBLEM 18
-       'replace-this-line
+        (define tmp (zip values))
+        (append (cons (cons 'lambda (cons (car tmp) (map let-to-lambda body))) nil) (map let-to-lambda (cadr tmp)))
        ; END PROBLEM 18
      ))
     (else
      ; BEGIN PROBLEM 18
-     'replace-this-line
+     (cons (car expr) (map let-to-lambda (cdr expr)))
      ; END PROBLEM 18
     )))
