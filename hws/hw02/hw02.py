@@ -124,7 +124,7 @@ def make_repeater(func, n):
     5
     """
     "*** YOUR CODE HERE ***"
-    return accumulate(compose1, 0, n, func)
+    return accumulate(compose1, lambda x: x, n, lambda x: func)
 
 def zero(f):
     return lambda x: x
