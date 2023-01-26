@@ -148,15 +148,12 @@ def cycle(f1, f2, f3):
     """
     "*** YOUR CODE HERE ***"
     def fn(x):
-        fns = [f1,f2,f3]
-        def gx(v):
-            z = x
-            ret = v
-            i = 1
-            while(i <= z):
-                ret = fns[i % 3 - 1](ret)
-                i += 1
-            return ret
-        return gx
+        allFns = [f1, f2, f3]
+        composedFn = lambda x: x
+
+        for i in range(x):
+            composedFn = compose1(allFns[i % 3], composedFn)
+        return composedFn
+        
     return fn
 
